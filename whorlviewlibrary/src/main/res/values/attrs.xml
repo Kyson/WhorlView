@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Whorl_Style">
+        <attr name="smallWhorlColor" format="color" />
+        <attr name="middleWhorlColor" format="color" />
+        <attr name="bigWhorlColor" format="color" />
+        <attr name="circleTime" format="integer" />
+    </declare-styleable>
+</resources>
