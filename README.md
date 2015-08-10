@@ -12,6 +12,11 @@
 
 添加gradle配置
 
+```
+dependencies {
+    compile 'com.tt:whorlviewlibrary:1.0.0'
+}
+```
 
 ### step2
 
