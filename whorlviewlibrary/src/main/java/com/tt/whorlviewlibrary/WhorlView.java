@@ -27,10 +27,13 @@ public class WhorlView extends View {
     private static final int PARALLAX_MEDIUM = 72;
     private static final int PARALLAX_SLOW = 90;
 
-    private static final float SWEEP_ANGLE = 90;
+    private static final float SWEEP_ANGLE = 90f;
 
     private static final float STOKE_WIDTH = 5f;
 
+    private static final long REFRESH_DURATION = 16L;
+
+    private long mCircleTime;
     private int[] mLayerColors = new int[CIRCLE_NUM];
     private int mCircleSpeed;
     private int mParallaxSpeed;
@@ -53,12 +56,12 @@ public class WhorlView extends View {
         final int defaultCircleSpeed = 270;
         if (attrs != null) {
             final TypedArray typedArray = context.obtainStyledAttributes(
-                    attrs, R.styleable.Whorl_Style);
-            mLayerColors[0] = typedArray.getColor(R.styleable.Whorl_Style_smallWhorlColor, defaultSmallColor);
-            mLayerColors[1] = typedArray.getColor(R.styleable.Whorl_Style_middleWhorlColor, defaultMiddleColor);
-            mLayerColors[2] = typedArray.getColor(R.styleable.Whorl_Style_bigWhorlColor, defaultBigColor);
-            mCircleSpeed = typedArray.getInt(R.styleable.Whorl_Style_circleSpeed, defaultCircleSpeed);
-            int index = typedArray.getInt(R.styleable.Whorl_Style_parallax, 0);
+                    attrs, R.styleable.WhorlView_Style);
+            mLayerColors[0] = typedArray.getColor(R.styleable.WhorlView_Style_WhorlView_SmallWhorlColor, defaultSmallColor);
+            mLayerColors[1] = typedArray.getColor(R.styleable.WhorlView_Style_WhorlView_MiddleWhorlColor, defaultMiddleColor);
+            mLayerColors[2] = typedArray.getColor(R.styleable.WhorlView_Style_WhorlView_BigWhorlColor, defaultBigColor);
+            mCircleSpeed = typedArray.getInt(R.styleable.WhorlView_Style_WhorlView_CircleSpeed, defaultCircleSpeed);
+            int index = typedArray.getInt(R.styleable.WhorlView_Style_WhorlView_Parallax, 0);
             setParallax(index);
             typedArray.recycle();
         } else {
@@ -86,10 +89,6 @@ public class WhorlView extends View {
                 throw new IllegalStateException("no such parallax type");
         }
     }
-
-    private long mCircleTime;
-
-    private static final long REFRESH_DURATION = 20;
 
     @Override
     protected void onDraw(Canvas canvas) {

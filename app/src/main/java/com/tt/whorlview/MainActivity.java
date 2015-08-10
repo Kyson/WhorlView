@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final WhorlView whorlView = (WhorlView) this.findViewById(R.id.wh);
+        final WhorlView whorlView = (WhorlView) this.findViewById(R.id.whorl);
         whorlView.start();
         whorlView.setOnClickListener(new View.OnClickListener() {
 
