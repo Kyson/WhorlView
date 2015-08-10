@@ -14,7 +14,8 @@ import android.view.View;
 /**
  * 类似螺纹的加载view<br></>
  * 可以自定义的属性：颜色、旋转速度（X弧度/s）<p/>
- * Created by Kyson on 2015/8/9.
+ * Created by Kyson on 2015/8/9.<br>
+ * www.hikyson.cn<br>
  */
 public class WhorlView extends View {
     private static final int CIRCLE_NUM = 3;
@@ -99,19 +100,19 @@ public class WhorlView extends View {
         }
     }
 
-    private boolean isCircling;
+    private boolean mIsCircling = false;
 
     /**
      * 旋转开始 <功能简述>
      */
     public void start() {
-        isCircling = true;
+        mIsCircling = true;
         new Thread(new Runnable() {
 
             @Override
             public void run() {
                 mCircleTime = 0L;
-                while (isCircling) {
+                while (mIsCircling) {
                     invalidateWrap();
                     mCircleTime = mCircleTime + REFRESH_DURATION;
                     try {
@@ -125,9 +126,13 @@ public class WhorlView extends View {
     }
 
     public void stop() {
-        isCircling = false;
+        mIsCircling = false;
         mCircleTime = 0L;
         invalidateWrap();
+    }
+
+    public boolean isCircling(){
+        return mIsCircling;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -198,11 +203,36 @@ public class WhorlView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int minSize = (int) (STOKE_WIDTH * 4 * CIRCLE_NUM);
+        int wantSize = (int) (STOKE_WIDTH * 8 * CIRCLE_NUM);
+        int size = measureSize(widthMeasureSpec, wantSize, minSize);
+        setMeasuredDimension(size, size);
     }
 
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
+    /**
+     * 测量view的宽高
+     *
+     * @param measureSpec
+     * @param wantSize
+     * @param minSize
+     * @return
+     */
+    public static int measureSize(int measureSpec, int wantSize, int minSize) {
+        int result = 0;
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+
+        if (specMode == MeasureSpec.EXACTLY) {
+            // 父布局想要view的大小
+            result = specSize;
+        } else {
+            result = wantSize;
+            if (specMode == MeasureSpec.AT_MOST) {
+                // wrap_content
+                result = Math.min(result, specSize);
+            }
+        }
+        //测量的尺寸和最小尺寸取大
+        return Math.max(result, minSize);
     }
 }

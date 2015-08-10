@@ -15,12 +15,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final WhorlView whorlView = (WhorlView) this.findViewById(R.id.whorl);
-        whorlView.start();
         whorlView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                whorlView.stop();
+                if (whorlView.isCircling()) {
+                    whorlView.stop();
+                } else {
+                    whorlView.start();
+                }
             }
         });
     }
