@@ -4,6 +4,11 @@
         <attr name="smallWhorlColor" format="color" />
         <attr name="middleWhorlColor" format="color" />
         <attr name="bigWhorlColor" format="color" />
-        <attr name="circleTime" format="integer" />
+        <attr name="circleSpeed" format="integer" />
+        <attr name="parallax">
+            <enum name="fast" value="1" />
+            <enum name="medium" value="0" />
+            <enum name="slow" value="2" />
+        </attr>
     </declare-styleable>
 </resources>
