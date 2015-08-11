@@ -14,7 +14,7 @@
 
 ```
 dependencies {
-    compile 'com.tt:whorlviewlibrary:1.0.0'
+    compile 'com.tt:whorlviewlibrary:1.0.1'
 }
 ```
 
