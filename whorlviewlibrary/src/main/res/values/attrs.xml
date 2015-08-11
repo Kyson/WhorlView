@@ -10,5 +10,7 @@
             <enum name="medium" value="0" />
             <enum name="slow" value="2" />
         </attr>
+        <attr name="WhorlView_SweepAngle" format="float" />
+        <attr name="WhorlView_StrokeWidth" format="float" />
     </declare-styleable>
 </resources>

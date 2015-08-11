@@ -14,7 +14,7 @@
 
 ```
 dependencies {
-    compile 'com.tt:whorlviewlibrary:1.0.1'
+    compile 'com.tt:whorlviewlibrary:1.0.2'
 }
 ```
 
@@ -23,15 +23,18 @@ dependencies {
 在xml中添加WhorlView
 
 ```xml
-<com.tt.whorlviewlibrary.WhorlView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.tt.whorlviewlibrary.WhorlView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/whorl"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:WhorlView_BigWhorlColor="@color/material_blue"
         app:WhorlView_CircleSpeed="270"
         app:WhorlView_MiddleWhorlColor="@color/material_red"
         app:WhorlView_Parallax="fast"
-        app:WhorlView_SmallWhorlColor="@color/material_green"></com.tt.whorlviewlibrary.WhorlView>
+        app:WhorlView_SmallWhorlColor="@color/material_green"
+        app:WhorlView_StrokeWidth="8"
+        app:WhorlView_SweepAngle="180">
+    </com.tt.whorlviewlibrary.WhorlView>
 ```
 
 ### step3
@@ -52,6 +55,8 @@ whorlView.start();
 |WhorlView_BigWhorlColor|color|最外圈颜色|#5677fc(蓝色)|
 |WhorlView_CircleSpeed|int|转圈速度|270度每秒|
 |WhorlView_Parallax|enum|视差效果|72度每秒|
+|WhorlView_SweepAngle|float|弧度|90度|
+|WhorlView_StrokeWidth|float|弧宽|5f|
 
 ## API
 

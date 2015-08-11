@@ -28,16 +28,24 @@ public class WhorlView extends View {
     private static final int PARALLAX_MEDIUM = 72;
     private static final int PARALLAX_SLOW = 90;
 
-    private static final float SWEEP_ANGLE = 90f;
+//    private static final float SWEEP_ANGLE = 90f;
 
-    private static final float STOKE_WIDTH = 5f;
+//    private static final float STOKE_WIDTH = 5f;
 
     private static final long REFRESH_DURATION = 16L;
 
+    //当前动画时间
     private long mCircleTime;
+    //每层颜色
     private int[] mLayerColors = new int[CIRCLE_NUM];
+    //旋转速度
     private int mCircleSpeed;
+    //视差差速
     private int mParallaxSpeed;
+    //弧长
+    private float mSweepAngle;
+    //弧宽
+    private float mStrokeWidth;
 
     public WhorlView(Context context) {
         this(context, null, 0);
@@ -55,6 +63,8 @@ public class WhorlView extends View {
         final int defaultBigColor = res.getColor(R.color.material_blue);
         //默认外层最慢180度/s
         final int defaultCircleSpeed = 270;
+        final float defaultSweepAngle = 90f;
+        final float defaultStrokeWidth = 5f;
         if (attrs != null) {
             final TypedArray typedArray = context.obtainStyledAttributes(
                     attrs, R.styleable.WhorlView_Style);
@@ -64,6 +74,11 @@ public class WhorlView extends View {
             mCircleSpeed = typedArray.getInt(R.styleable.WhorlView_Style_WhorlView_CircleSpeed, defaultCircleSpeed);
             int index = typedArray.getInt(R.styleable.WhorlView_Style_WhorlView_Parallax, 0);
             setParallax(index);
+            mSweepAngle = typedArray.getFloat(R.styleable.WhorlView_Style_WhorlView_SweepAngle, defaultSweepAngle);
+            if(mSweepAngle <= 0 || mSweepAngle >= 360){
+                throw new IllegalArgumentException("sweep angle out of bound");
+            }
+            mStrokeWidth = typedArray.getFloat(R.styleable.WhorlView_Style_WhorlView_StrokeWidth, defaultStrokeWidth);
             typedArray.recycle();
         } else {
             mLayerColors[0] = defaultSmallColor;
@@ -71,6 +86,8 @@ public class WhorlView extends View {
             mLayerColors[2] = defaultBigColor;
             mCircleSpeed = defaultCircleSpeed;
             mParallaxSpeed = PARALLAX_MEDIUM;
+            mSweepAngle = defaultSweepAngle;
+            mStrokeWidth = defaultStrokeWidth;
         }
     }
 
@@ -131,7 +148,7 @@ public class WhorlView extends View {
         invalidateWrap();
     }
 
-    public boolean isCircling(){
+    public boolean isCircling() {
         return mIsCircling;
     }
 
@@ -155,7 +172,7 @@ public class WhorlView extends View {
         Paint paint = checkArcPaint(index);
         //最大圆是view的边界
         RectF oval = checkRectF(calcuRadiusRatio(index));
-        canvas.drawArc(oval, startAngle, SWEEP_ANGLE, false, paint);
+        canvas.drawArc(oval, startAngle, mSweepAngle, false, paint);
     }
 
     private Paint mArcPaint;
@@ -168,7 +185,7 @@ public class WhorlView extends View {
         }
         mArcPaint.setColor(mLayerColors[index]);
         mArcPaint.setStyle(Paint.Style.STROKE);
-        mArcPaint.setStrokeWidth(STOKE_WIDTH);
+        mArcPaint.setStrokeWidth(mStrokeWidth);
         mArcPaint.setAntiAlias(true);
         return mArcPaint;
     }
@@ -179,7 +196,7 @@ public class WhorlView extends View {
         if (mOval == null) {
             mOval = new RectF();
         }
-        float start = getMinLength() * 0.5f * (1 - radiusRatio) + STOKE_WIDTH;
+        float start = getMinLength() * 0.5f * (1 - radiusRatio) + mStrokeWidth;
         float end = getMinLength() - start;
         mOval.set(start, start, end, end);
         return mOval;
@@ -203,8 +220,8 @@ public class WhorlView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int minSize = (int) (STOKE_WIDTH * 4 * CIRCLE_NUM);
-        int wantSize = (int) (STOKE_WIDTH * 8 * CIRCLE_NUM);
+        int minSize = (int) (mStrokeWidth * 4 * CIRCLE_NUM);
+        int wantSize = (int) (mStrokeWidth * 8 * CIRCLE_NUM);
         int size = measureSize(widthMeasureSpec, wantSize, minSize);
         setMeasuredDimension(size, size);
     }

@@ -5,25 +5,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.tt.whorlviewlibrary.WhorlView;
 
 public class MainActivity extends AppCompatActivity {
+    private boolean mIsRunning;
+    private WhorlView mWhorlView1;
+    private WhorlView mWhorlView2;
+    private WhorlView mWhorlView3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final WhorlView whorlView = (WhorlView) this.findViewById(R.id.whorl);
-        whorlView.setOnClickListener(new View.OnClickListener() {
+        final Button btn = (Button) this.findViewById(R.id.button);
+        btn.setText("start");
+        mWhorlView1 = (WhorlView) this.findViewById(R.id.whorl);
+        mWhorlView2 = (WhorlView) this.findViewById(R.id.whorl2);
+        mWhorlView3 = (WhorlView) this.findViewById(R.id.whorl3);
+
+        btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (whorlView.isCircling()) {
-                    whorlView.stop();
+                if (mIsRunning) {
+                    mWhorlView1.stop();
+                    mWhorlView2.stop();
+                    mWhorlView3.stop();
                 } else {
-                    whorlView.start();
+                    mWhorlView1.start();
+                    mWhorlView2.start();
+                    mWhorlView3.start();
                 }
+                mIsRunning = !mIsRunning;
+                btn.setText(mIsRunning ? "stop" : "start");
             }
         });
     }

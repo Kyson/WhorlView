@@ -1,7 +1,9 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -11,24 +13,44 @@
     <com.tt.whorlviewlibrary.WhorlView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/whorl"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:WhorlView_BigWhorlColor="@color/material_blue"
-        app:WhorlView_CircleSpeed="270"
-        android:layout_centerHorizontal="true"
-        app:WhorlView_MiddleWhorlColor="@color/material_red"
-        app:WhorlView_Parallax="fast"
-        app:WhorlView_SmallWhorlColor="@color/material_green"></com.tt.whorlviewlibrary.WhorlView>
+        android:layout_height="wrap_content"></com.tt.whorlviewlibrary.WhorlView>
 
-    <TextView
+    <com.tt.whorlviewlibrary.WhorlView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/whorl2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="加载中..."
-        android:id="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/whorl"
-        android:layout_marginTop="18dp"
-        />
+        android:layout_marginTop="12dp"
+        app:WhorlView_BigWhorlColor="@color/material_blue"
+        app:WhorlView_CircleSpeed="270"
+        app:WhorlView_MiddleWhorlColor="@color/material_red"
+        app:WhorlView_Parallax="fast"
+        app:WhorlView_SmallWhorlColor="@color/material_green"
+        app:WhorlView_StrokeWidth="8"
+        app:WhorlView_SweepAngle="180">
+    </com.tt.whorlviewlibrary.WhorlView>
 
+    <com.tt.whorlviewlibrary.WhorlView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/whorl3"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="12dp"
+        app:WhorlView_BigWhorlColor="@color/material_green"
+        app:WhorlView_CircleSpeed="360"
+        app:WhorlView_MiddleWhorlColor="@color/material_blue"
+        app:WhorlView_Parallax="fast"
+        app:WhorlView_SmallWhorlColor="@color/material_red"
+        app:WhorlView_StrokeWidth="6"
+        app:WhorlView_SweepAngle="6"></com.tt.whorlviewlibrary.WhorlView>
 
-</RelativeLayout>
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal" />
+
+</LinearLayout>
