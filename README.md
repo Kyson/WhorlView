@@ -14,7 +14,7 @@
 
 ```
 dependencies {
-    compile 'com.tt:whorlviewlibrary:1.0.2'
+    compile 'com.tt:whorlviewlibrary:1.0.3'
 }
 ```
 
@@ -24,16 +24,15 @@ dependencies {
 
 ```xml
     <com.tt.whorlviewlibrary.WhorlView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/whorl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:WhorlView_BigWhorlColor="@color/material_blue"
-        app:WhorlView_CircleSpeed="270"
-        app:WhorlView_MiddleWhorlColor="@color/material_red"
-        app:WhorlView_Parallax="fast"
-        app:WhorlView_SmallWhorlColor="@color/material_green"
-        app:WhorlView_StrokeWidth="8"
-        app:WhorlView_SweepAngle="180">
+        android:id="@+id/whorl2"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        app:whorlview_circle_colors="#F14336_#ffffff_#5677fc_#F44336_#4CAF50"
+        app:whorlview_circle_speed="270"
+        app:whorlview_parallax="fast"
+        app:whorlview_strokeWidth="6"
+        app:whorlview_sweepAngle="90">
     </com.tt.whorlviewlibrary.WhorlView>
 ```
 
@@ -50,13 +49,13 @@ whorlView.start();
 
 |属性|类型|说明|默认值|
 |---|---|---|---|
-|WhorlView_SmallWhorlColor|color|最内圈颜色|#F44336(红色)|
-|WhorlView_MiddleWhorlColor|color|中间圈颜色|#4CAF50(绿色)|
-|WhorlView_BigWhorlColor|color|最外圈颜色|#5677fc(蓝色)|
-|WhorlView_CircleSpeed|int|转圈速度|270度每秒|
-|WhorlView_Parallax|enum|视差效果|72度每秒|
-|WhorlView_SweepAngle|float|弧度|90度|
-|WhorlView_StrokeWidth|float|弧宽|5f|
+|whorlview_circle_colors|string|圆弧颜色|由外向内依次为红绿蓝|
+|whorlview_circle_speed|int|转圈速度|270度每秒|
+|whorlview_parallax|enum|视差效果|72度每秒|
+|whorlview_sweepAngle|float|弧度|90度|
+|whorlview_strokeWidth|float|弧宽|5f|
+
+> 1.0.3版本对颜色进行了修改，whorlview_circle_colors属性值应该为<色值>_<色值>_<色值>，其中色值为#开头的6位或8位16进制数
 
 ## API
 
