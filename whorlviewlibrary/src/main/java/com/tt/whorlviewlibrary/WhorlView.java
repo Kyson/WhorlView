@@ -19,7 +19,7 @@ import android.view.View;
  * www.hikyson.cn<br>
  */
 public class WhorlView extends View {
-    private static final String SPLI_CHAR = "_";
+    private static final String COLOR_SPLIT = "_";
 
     public static final int FAST = 1;
     public static final int MEDIUM = 0;
@@ -63,7 +63,7 @@ public class WhorlView extends View {
             final TypedArray typedArray = context.obtainStyledAttributes(
                     attrs, R.styleable.whorlview_style);
             String colors = typedArray.getString(R.styleable.whorlview_style_whorlview_circle_colors);
-            if(TextUtils.isEmpty(colors)){
+            if (TextUtils.isEmpty(colors)) {
                 colors = defaultColors;
             }
             parseStringToLayerColors(colors);
@@ -87,10 +87,11 @@ public class WhorlView extends View {
 
     /**
      * string类型的颜色分割并转换为色值
+     *
      * @param colors
      */
     private void parseStringToLayerColors(String colors) {
-        String[] colorArray = colors.split(SPLI_CHAR);
+        String[] colorArray = colors.split(COLOR_SPLIT);
         mLayerColors = new int[colorArray.length];
         for (int i = 0; i < colorArray.length; i++) {
             try {
@@ -205,8 +206,8 @@ public class WhorlView extends View {
         if (mOval == null) {
             mOval = new RectF();
         }
-        float start = index * (mStrokeWidth+mIntervalWidth) + mStrokeWidth/2;
-        float end =getMinLength() - start;
+        float start = index * (mStrokeWidth + mIntervalWidth) + mStrokeWidth / 2;
+        float end = getMinLength() - start;
         mOval.set(start, start, end, end);
         return mOval;
     }
@@ -228,10 +229,14 @@ public class WhorlView extends View {
 
     /**
      * 计算间隔大小
+     *
      * @param size
      */
-    private void calculateIntervalWidth(int size){
-        mIntervalWidth= (size/(mLayerColors.length*2)) - mStrokeWidth;
+    private void calculateIntervalWidth(int size) {
+        float wantIntervalWidth = (size / (mLayerColors.length * 2)) - mStrokeWidth;
+        //防止间隔太大，最大为弧宽的3倍
+        float maxIntervalWidth = mStrokeWidth * 4;
+        mIntervalWidth = Math.min(wantIntervalWidth, maxIntervalWidth);
     }
 
     /**

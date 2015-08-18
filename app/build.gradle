@@ -22,6 +22,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.tt:whorlviewlibrary:1.0.3'
-//    compile project(':whorlviewlibrary')
+//    compile 'com.tt:whorlviewlibrary:1.0.3'
+    compile project(':whorlviewlibrary')
 }

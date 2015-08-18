@@ -17,25 +17,24 @@
 
     <com.tt.whorlviewlibrary.WhorlView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/whorl2"
-        android:layout_width="1dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         app:whorlview_circle_colors="#F14336_#ffffff_#4CAF50_#5677fc_#F44336_#4CAF50"
         app:whorlview_circle_speed="270"
         app:whorlview_parallax="fast"
         app:whorlview_strokeWidth="8"
-        app:whorlview_sweepAngle="8">
-    </com.tt.whorlviewlibrary.WhorlView>
+        app:whorlview_sweepAngle="8"></com.tt.whorlviewlibrary.WhorlView>
 
     <com.tt.whorlviewlibrary.WhorlView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/whorl3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="32dp"
         app:whorlview_circle_speed="360"
         app:whorlview_parallax="fast"
-        app:whorlview_strokeWidth="6"
-        app:whorlview_sweepAngle="180"></com.tt.whorlviewlibrary.WhorlView>
+        app:whorlview_strokeWidth="16"
+        app:whorlview_sweepAngle="135"></com.tt.whorlviewlibrary.WhorlView>
 
     <Space
         android:layout_width="wrap_content"
