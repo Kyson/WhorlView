@@ -55,7 +55,7 @@ whorlView.start();
 |whorlview_sweepAngle|float|弧度|90度|
 |whorlview_strokeWidth|float|弧宽|5f|
 
-> 1.0.3版本对颜色进行了修改，whorlview_circle_colors属性值应该为<色值>_<色值>_<色值>，其中色值为#开头的6位或8位16进制数
+> 1.0.3版本对颜色进行了修改，whorlview_circle_colors属性值应该为<色值>\_<色值>\_<色值>，以\_为分隔符，其中色值为#开头的6位或8位16进制数
 
 ## API
 
