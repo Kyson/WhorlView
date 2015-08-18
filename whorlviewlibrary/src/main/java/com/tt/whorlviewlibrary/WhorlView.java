@@ -2,23 +2,24 @@ package com.tt.whorlviewlibrary;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * 类似螺纹的加载view<br></>
- * 可以自定义的属性：颜色、旋转速度（X弧度/s）<p/>
+ * 类似螺纹的加载view<br>
+ * 可以自定义的属性：颜色、旋转速度（X弧度/s）<br>
  * Created by Kyson on 2015/8/9.<br>
  * www.hikyson.cn<br>
  */
 public class WhorlView extends View {
-    private static final int CIRCLE_NUM = 3;
+    private static final String SPLI_CHAR = "_";
 
     public static final int FAST = 1;
     public static final int MEDIUM = 0;
@@ -28,16 +29,12 @@ public class WhorlView extends View {
     private static final int PARALLAX_MEDIUM = 72;
     private static final int PARALLAX_SLOW = 90;
 
-//    private static final float SWEEP_ANGLE = 90f;
-
-//    private static final float STOKE_WIDTH = 5f;
-
     private static final long REFRESH_DURATION = 16L;
 
     //当前动画时间
     private long mCircleTime;
     //每层颜色
-    private int[] mLayerColors = new int[CIRCLE_NUM];
+    private int[] mLayerColors;
     //旋转速度
     private int mCircleSpeed;
     //视差差速
@@ -57,33 +54,30 @@ public class WhorlView extends View {
 
     public WhorlView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        Resources res = getResources();
-        final int defaultSmallColor = res.getColor(R.color.material_red);
-        final int defaultMiddleColor = res.getColor(R.color.material_green);
-        final int defaultBigColor = res.getColor(R.color.material_blue);
-        //默认外层最慢180度/s
+        //默认外层最慢270度/s
         final int defaultCircleSpeed = 270;
         final float defaultSweepAngle = 90f;
         final float defaultStrokeWidth = 5f;
+        final String defaultColors = "#F44336_#4CAF50_#5677fc";
         if (attrs != null) {
             final TypedArray typedArray = context.obtainStyledAttributes(
-                    attrs, R.styleable.WhorlView_Style);
-            mLayerColors[0] = typedArray.getColor(R.styleable.WhorlView_Style_WhorlView_SmallWhorlColor, defaultSmallColor);
-            mLayerColors[1] = typedArray.getColor(R.styleable.WhorlView_Style_WhorlView_MiddleWhorlColor, defaultMiddleColor);
-            mLayerColors[2] = typedArray.getColor(R.styleable.WhorlView_Style_WhorlView_BigWhorlColor, defaultBigColor);
-            mCircleSpeed = typedArray.getInt(R.styleable.WhorlView_Style_WhorlView_CircleSpeed, defaultCircleSpeed);
-            int index = typedArray.getInt(R.styleable.WhorlView_Style_WhorlView_Parallax, 0);
+                    attrs, R.styleable.whorlview_style);
+            String colors = typedArray.getString(R.styleable.whorlview_style_whorlview_circle_colors);
+            if(TextUtils.isEmpty(colors)){
+                colors = defaultColors;
+            }
+            parseStringToLayerColors(colors);
+            mCircleSpeed = typedArray.getInt(R.styleable.whorlview_style_whorlview_circle_speed, defaultCircleSpeed);
+            int index = typedArray.getInt(R.styleable.whorlview_style_whorlview_parallax, 0);
             setParallax(index);
-            mSweepAngle = typedArray.getFloat(R.styleable.WhorlView_Style_WhorlView_SweepAngle, defaultSweepAngle);
-            if(mSweepAngle <= 0 || mSweepAngle >= 360){
+            mSweepAngle = typedArray.getFloat(R.styleable.whorlview_style_whorlview_sweepAngle, defaultSweepAngle);
+            if (mSweepAngle <= 0 || mSweepAngle >= 360) {
                 throw new IllegalArgumentException("sweep angle out of bound");
             }
-            mStrokeWidth = typedArray.getFloat(R.styleable.WhorlView_Style_WhorlView_StrokeWidth, defaultStrokeWidth);
+            mStrokeWidth = typedArray.getFloat(R.styleable.whorlview_style_whorlview_strokeWidth, defaultStrokeWidth);
             typedArray.recycle();
         } else {
-            mLayerColors[0] = defaultSmallColor;
-            mLayerColors[1] = defaultMiddleColor;
-            mLayerColors[2] = defaultBigColor;
+            parseStringToLayerColors(defaultColors);
             mCircleSpeed = defaultCircleSpeed;
             mParallaxSpeed = PARALLAX_MEDIUM;
             mSweepAngle = defaultSweepAngle;
@@ -91,6 +85,21 @@ public class WhorlView extends View {
         }
     }
 
+    /**
+     * string类型的颜色分割并转换为色值
+     * @param colors
+     */
+    private void parseStringToLayerColors(String colors) {
+        String[] colorArray = colors.split(SPLI_CHAR);
+        mLayerColors = new int[colorArray.length];
+        for (int i = 0; i < colorArray.length; i++) {
+            try {
+                mLayerColors[i] = Color.parseColor(colorArray[i]);
+            } catch (IllegalArgumentException ex) {
+                throw new IllegalArgumentException("whorlview_circle_colors can not be parsed | " + ex.getLocalizedMessage());
+            }
+        }
+    }
 
     private void setParallax(int index) {
         switch (index) {
@@ -111,8 +120,8 @@ public class WhorlView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (int i = 0; i < CIRCLE_NUM; i++) {
-            float angle = (mCircleSpeed + mParallaxSpeed * (CIRCLE_NUM - i - 1)) * mCircleTime * 0.001f;
+        for (int i = 0; i < mLayerColors.length; i++) {
+            float angle = (mCircleSpeed + mParallaxSpeed * i) * mCircleTime * 0.001f;
             drawArc(canvas, i, angle);
         }
     }
@@ -120,7 +129,7 @@ public class WhorlView extends View {
     private boolean mIsCircling = false;
 
     /**
-     * 旋转开始 <功能简述>
+     * start anim
      */
     public void start() {
         mIsCircling = true;
@@ -171,7 +180,7 @@ public class WhorlView extends View {
     private void drawArc(Canvas canvas, int index, float startAngle) {
         Paint paint = checkArcPaint(index);
         //最大圆是view的边界
-        RectF oval = checkRectF(calcuRadiusRatio(index));
+        RectF oval = checkRectF(index);
         canvas.drawArc(oval, startAngle, mSweepAngle, false, paint);
     }
 
@@ -192,38 +201,37 @@ public class WhorlView extends View {
 
     private RectF mOval;
 
-    private RectF checkRectF(float radiusRatio) {
+    private RectF checkRectF(int index) {
         if (mOval == null) {
             mOval = new RectF();
         }
-        float start = getMinLength() * 0.5f * (1 - radiusRatio) + mStrokeWidth;
-        float end = getMinLength() - start;
+        float start = index * (mStrokeWidth+mIntervalWidth) + mStrokeWidth/2;
+        float end =getMinLength() - start;
         mOval.set(start, start, end, end);
         return mOval;
-    }
-
-    private static final float RADIUS_RATIO_P = 0.2f;
-
-    /**
-     * 计算每一圈的半径比例
-     *
-     * @param index
-     * @return
-     */
-    private float calcuRadiusRatio(int index) {
-        return 1f - (CIRCLE_NUM - index - 1) * RADIUS_RATIO_P;
     }
 
     private int getMinLength() {
         return Math.min(getWidth(), getHeight());
     }
 
+    private float mIntervalWidth;
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int minSize = (int) (mStrokeWidth * 4 * CIRCLE_NUM);
-        int wantSize = (int) (mStrokeWidth * 8 * CIRCLE_NUM);
+        int minSize = (int) (mStrokeWidth * 4 * mLayerColors.length + mStrokeWidth);
+        int wantSize = (int) (mStrokeWidth * 8 * mLayerColors.length + mStrokeWidth);
         int size = measureSize(widthMeasureSpec, wantSize, minSize);
+        calculateIntervalWidth(size);
         setMeasuredDimension(size, size);
+    }
+
+    /**
+     * 计算间隔大小
+     * @param size
+     */
+    private void calculateIntervalWidth(int size){
+        mIntervalWidth= (size/(mLayerColors.length*2)) - mStrokeWidth;
     }
 
     /**

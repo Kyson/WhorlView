@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
     private WhorlView mWhorlView2;
     private WhorlView mWhorlView3;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
