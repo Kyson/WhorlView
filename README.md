@@ -73,13 +73,17 @@ whorlView.start();
 
 ## 更多
 
-- [我的个人博客](http://www.hikyson.cn)
+- [主页](http://www.hikyson.cn)
 
-- [我的Github](https://github.com/Kyson)
+- [博客](http://blog.hikyson.cn/)
 
-- [我的OSC](http://git.oschina.net/cocobaby)
+- [Github](https://github.com/Kyson)
 
-- [我的新浪微博](http://weibo.com/1980495343/profile?rightmod=1&wvr=6&mod=personinfo)
+- 邮箱:kysonchao@gmail.com
+
+- [开源中国](http://git.oschina.net/cocobaby)
+
+- [新浪微博](http://weibo.com/1980495343/profile?rightmod=1&wvr=6&mod=personinfo)
 
 ## License
 
